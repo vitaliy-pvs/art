@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <title>{{ current_page_title }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=yes">
+    <link rel="stylesheet" href="{% static 'sizes.css' %}">
+    <link href="{% static 'favicon.png' %}" rel="icon" type="image/png"/>
+</head>
+
+<body>
+
+<div id="wrapper">
+    <font face="Arial, sans-serif">
+
+        <header id="header">
+            <div id="header__body">
+                <a href="/" id="header__logo">
+                    {% if logo_exists %}
+                    <img src="{% static 'logo.png' %}" alt="logo">
+                    {% endif %}
+                </a>
+                <div id="back-top">
+                    <a href="#" id="up">НАВЕРХ</a>
+                </div>
+            </div>
+        </header>
+
+        <nav id="header__menu">
+            <div id="menu_wrap">
+                <hr class="br_menu_line" style="visibility:hidden;">
+                {% for page_title in page_title_list %}
+                {% if page_title.0 == current_page_title %}
+                <a href="{% url page_title.1 %}" style="text-decoration:underline;" class="menu_page_link">{{ page_title.0 }}</a>
+                <br class="br_menu_line">
+                <hr class="br_menu_line" style="visibility:hidden;">
+                {% else %}
+                <a href="{% url page_title.1 %}" class="menu_page_link">{{ page_title.0 }}</a>
+                <hr class="br_menu_line" style="visibility:hidden;">
+                {% endif %}
+                {% endfor %}
+            </div>
+        </nav>
+
+        <a href="#" id="header__burger">
+            <div id="bef"></div>
+            <div id="mid"></div>
+            <div id="aft"></div>
+        </a>
+
+        <div id="content" style="background-color:#FFF;">
+            <font color="#000" face="Arial, sans-serif">
+                <div id="container">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </font>
+        </div>
+    </font>
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+    (function($) {
+        $(function() {
+            $('#up').click(function() {
+                $('body,html').animate({scrollTop:0},250);
+                return false;
+            })
+        })
+    })(jQuery)
+
+    $('#header__burger').click(function(event){
+        event.preventDefault();
+        $('#header__burger, #header__menu, #bef, #mid, #aft').toggleClass('active');
+        $('body').toggleClass('lock');
+    });
+});
+
+</script>
+
+</body>
+
+</html>

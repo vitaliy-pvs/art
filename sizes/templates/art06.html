@@ -1,0 +1,443 @@
+{% extends 'base.html' %}
+{% block content %}
+<div align="center" style="width:100%;">
+    <h2>Конфигуратор МШК-06</h2>
+    <div class="view">
+        <table id="form" border="1" cellpadding="5">
+            <tr>
+                <td><font size="2">Механизм</font></td>
+                <td><font size="3">МШК-06</font></td>
+            </tr>
+            <tr>
+                <td><font size="2">Царга</font></td>
+                <td>
+                    <select id="tsarga">
+                        <option value="0">Ц</option>
+                        <option selected value="1">НЕТ</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><font size="2">Отдельно стоящий</font></td>
+                <td>
+                    <select id="os">
+                        <option selected value="0">ОС</option>
+                        <option value="1">НЕТ</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><font size="2">Механизм дивана</font></td>
+                <td>
+                    <select id="td">
+                        <option selected value="0">ДФ</option>
+                        <option value="1">К</option>
+                        <option value="2">НЕТ</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><font size="2">Глубина механизма</font></td>
+                <td>
+                    <select id="glm">
+                        <option selected value="0">350</option>
+                        <option value="1">450</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><font size="2">Глубина шкафа</font></td>
+                <td>
+                    <input type="text" id="glhk" list="glhk_list" style="font-size:16px;" size="10" value="350">
+                    <datalist id="glhk_list">
+                        <option value="350">
+                        <option value="450">
+                    </datalist>
+                </td>
+            </tr>
+            <tr>
+                <td><font size="2">Ширина спального места</font></td>
+                <td>
+                    <input type="text" id="shirina" list="shirina_list" style="font-size:16px;" size="10"
+                           value="1600" autocomplete="off">
+                    <datalist id="shirina_list">
+                        <option value="1400">
+                        <option value="1600">
+                        <option value="1800">
+                    </datalist>
+                </td>
+            </tr>
+            <tr>
+                <td><font size="2">Длина спального места</font></td>
+                <td>
+                    <input type="text" id="dlina" list="dlina_list" style="font-size:16px;" size="10"
+                           value="2000">
+                    <datalist id="dlina_list">
+                        <option selected value="1900">
+                        <option value="2000">
+                    </datalist>
+                </td>
+            </tr>
+            <tr>
+                <td><font size="2">Опоры</font></td>
+                <td>
+                    <select id="opori">
+                        <option selected value="0">ОП-06</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><font size="2">Высота опор</font></td>
+                <td>
+                    <select id="vop">
+                        <option selected value="0">270</option>
+                        <option value="1">430</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><font size="2">Газлифты</font></td>
+                <td>
+                    <select id="gazlifti">
+                        <option selected value="0">А</option>
+                        <option value="1">УСМ</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><font size="2">Фиксация фасада</font></td>
+                <td>
+                    <select id="fixer">
+                        <option selected value="0">НЕТ</option>
+                        <option value="1">ОпФ1</option>
+                        <option value="2">ОпФ2</option>
+                        <option value="3">РЗ</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><font size="2">Ламели</font></td>
+                <td>
+                    <select id="lameli">
+                        <option selected value="0">Л</option>
+                        <option value="1">2Л</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><font size="2">Изголовье</font></td>
+                <td>
+                    <select id="izgolovie">
+                        <option selected value="0">НЕТ</option>
+                        <option value="1">ИЗ</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><font size="2">Кожухи</font></td>
+                <td>
+                    <select id="kozuhi">
+                        <option selected value="0">НЕТ</option>
+                        <option value="1">К1</option>
+                        <option value="2">К2</option>
+                        <option value="3">К3</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="warning_container"></div>
+    <br>
+    <div id="component_container"></div>
+    <div class="view">
+        <table id="table_container" border="1" cellpadding="5"></table>
+    </div>
+    <br>
+    <br>
+    <input id="btnExport" type="button" value="Скачать Excel" style="display:none"/>
+
+</div>
+<br>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script charset="utf-8">
+
+let tsarga_text, os_text, td_text, glm_text, glhk_value, shirina_value, dlina_value, vop_text, gazlifti_text,
+fixer_text, lameli_text, izgolovie_text, kozuhi_text;
+
+function updateVariables() {
+	tsarga_text = tsarga.options[tsarga.selectedIndex].text;
+	os_text = os.options[os.selectedIndex].text;
+	td_text = td.options[td.selectedIndex].text;
+	glm_text = glm.options[glm.selectedIndex].text;
+	glhk_value = glhk.value;
+	shirina_value = shirina.value;
+	dlina_value = dlina.value;
+	vop_text = vop.options[vop.selectedIndex].text;
+	gazlifti_text = gazlifti.options[gazlifti.selectedIndex].text;
+	fixer_text = fixer.options[fixer.selectedIndex].text;
+	lameli_text = lameli.options[lameli.selectedIndex].text;
+	izgolovie_text = izgolovie.options[izgolovie.selectedIndex].text;
+	kozuhi_text = kozuhi.options[kozuhi.selectedIndex].text;
+};
+
+updateVariables();
+
+function addComponent(component_name, component_article) {
+	let component_tr = document.createElement('tr');
+	component_tr.innerHTML = '<td><b>' + component_name + '</b></td>' + '<td>' + component_article + '</td>';
+	table_container.append(component_tr);
+}
+
+function addArticle(article) {
+	let article_tr = document.createElement('tr');
+	article_tr.innerHTML = '<th colspan="2">' + article + '<br>Складская программа</th>';
+	table_container.append(article_tr);
+}
+
+function showStructure() {
+	component_container.innerHTML = '';
+	table_container.innerHTML = '';
+	updateVariables();
+	btnExport.style.display = 'block';
+
+	article = 'МШК-06' +
+		((tsarga_text == 'НЕТ') ? '.' : ('-' + tsarga_text + '.')) +
+		((os_text == 'НЕТ') ? '' : (os_text)) +
+		((td_text == 'НЕТ') ? '' : ('-' + td_text) + '') +
+		'.' + glm_text +
+		((glhk_value == glm_text) ? '.' : ('-' + glhk_value + '.')) +
+		shirina_value + '.' +
+		dlina_value +
+		((vop_text == '270') ? '' : ('.ОП-' + vop_text)) +
+		((gazlifti_text == 'А') ? '' : ('.' + gazlifti_text)) +
+		((fixer_text == 'НЕТ') ? '' : ('.' + fixer_text)) +
+		((lameli_text == 'Л') ? '' : ('.' + lameli_text)) +
+		((izgolovie_text == 'НЕТ') ? '' : ('.' + izgolovie_text)) +
+		((kozuhi_text == 'НЕТ') ? '' : ('.' + kozuhi_text));
+
+	addArticle(article);
+
+	if (os_text == 'НЕТ' && gazlifti_text == 'А') {
+		addComponent('Боковина', 'МШК-06.10-У.00');
+	} else if (os_text == 'НЕТ' && gazlifti_text == 'УСМ') {
+		addComponent('Боковина', 'МШК-05-УСМ.00');
+	} else if (os_text == 'ОС' && gazlifti_text == 'А' && (td_text == 'К' || td_text == 'ДФ')) {
+		addComponent('Боковина', 'МШК-06.ОС.10-У.00');
+	} else if (os_text == 'ОС' && gazlifti_text == 'А' && vop_text == '430') {
+		addComponent('Боковина', 'МШК-06.ОС-430.10-У.00');
+	} else if (os_text == 'ОС' && gazlifti_text == 'УСМ' && (td_text == 'К' || td_text == 'ДФ')) {
+		addComponent('Боковина', 'МШК-05.ОС-УСМ.00');
+	} else if (os_text == 'ОС' && gazlifti_text == 'УСМ' && vop_text == '430') {
+		addComponent('Боковина', 'МШК-05.ОС-430-УСМ.00');
+	} else {
+		addComponent('Боковина', 'Нет');
+	}
+
+	if (glm_text == '350' && gazlifti_text == 'А') {
+		addComponent('Поворотный механизм', 'МШК-05.350-У.00');
+	} else if (glm_text == '450' && gazlifti_text == 'А') {
+		addComponent('Поворотный механизм', 'МШК-05.450-У.00');
+	} else if (glm_text == '350' && gazlifti_text == 'УСМ') {
+		addComponent('Поворотный механизм', 'МШК-05.350-УСМ.10-М.00');
+	} else if (glm_text == '450' && gazlifti_text == 'УСМ') {
+		addComponent('Поворотный механизм', 'МШК-05.450-УСМ.10-М.00');
+	} else {
+		addComponent('Поворотный механизм', 'Нет');
+	}
+
+	rama_article = 'МШК-06.' +
+	((tsarga_text == 'НЕТ') ? '' : (tsarga_text + '.')) +
+	shirina_value +  '.' +
+	dlina_value +
+	((izgolovie_text == 'НЕТ') ? '' : ('.' + izgolovie_text)) +
+	((lameli_text == 'Л') ? '' : ('-' + lameli_text));
+
+
+	addComponent('Рама', rama_article);
+
+	if (vop_text == '270' && fixer_text == 'ОпФ1') {
+		addComponent('Опора', 'МШК-06-Н9.20.ФК-Ф1-УПК');
+	} else if (vop_text == '270' && fixer_text == 'ОпФ2') {
+		addComponent('Опора', 'МШК-06-Н9.20.ФК-Ф2-УПК');
+	} else if (vop_text == '270') {
+		addComponent('Опора', 'МШК-06-Н9.20.TS.00');
+	} else if (vop_text == '430') {
+		addComponent('Опора', 'МШК-06-Н9.20.430.TS.00');
+	} else {
+		addComponent('Опора', 'Нет');
+	}
+
+	if (os_text == 'ОС' && tsarga_text == 'НЕТ' && td_text == 'НЕТ') {
+		addComponent('Рама пола', `Пол МШК-05.${glhk_value}.${shirina_value}.00`);
+	} else if (os_text == 'ОС' && tsarga_text == 'Ц' && td_text == 'НЕТ') {
+		addComponent('Рама пола', `Пол МШК-05-Ц.${glhk_value}.${shirina_value}.00`);
+	} else if (os_text == 'ОС' && tsarga_text == 'НЕТ' && td_text == 'К') {
+		addComponent('Рама пола', `МТД-36.${glhk_value}.${shirina_value}.00`);
+	} else if (os_text == 'ОС' && tsarga_text == 'Ц' && td_text == 'К') {
+		addComponent('Рама пола', `МТД-36-Ц.${glhk_value}.${shirina_value}.00`);
+	} else if (os_text == 'ОС' && tsarga_text == 'НЕТ' && td_text == 'ДФ') {
+		addComponent('Рама пола', `Пол МШК-05.${glhk_value}.${shirina_value}.ДФ.00`);
+	} else if (os_text == 'ОС' && tsarga_text == 'Ц' && td_text == 'ДФ') {
+		addComponent('Рама пола', `Пол МШК-05-Ц.${glhk_value}.${shirina_value}.ДФ.00`);
+	} else {
+		addComponent('Рама пола', 'Нет');
+	}
+
+
+	if (os_text == 'ОС' && td_text == 'ДФ') {
+		addComponent('Механизм дивана', 'МТСМ-06.М.МШК');
+	} else {
+		addComponent('Механизм дивана', 'Нет');
+	}
+
+	if (izgolovie_text == 'ИЗ' && glhk_value == '350') {
+		addComponent('Изголовье', `МТП-05.350.${dlina_value}.00`);
+	} else if (izgolovie_text == 'ИЗ' && glhk_value == '450') {
+		addComponent('Изголовье', `МТП-05.450.${dlina_value}.00`);
+	} else {
+		addComponent('Изголовье', 'Нет');
+	}
+
+	if (kozuhi_text == 'К1') {
+		addComponent('Кожух', 'Защитный малый кожух МШК-06');
+	} else if (kozuhi_text == 'К2') {
+		addComponent('Кожух', 'Кожух защитный для МШК-06 (левый)<br>Кожух защитный для МШК-06 (правый)');
+	} else if (kozuhi_text == 'К3' && gazlifti_text == 'УСМ') {
+		addComponent('Кожух', 'Защитный кожух МШК-05.УСМ');
+	} else {
+		addComponent('Кожух', 'Нет');
+	}
+};
+
+function noWarn() {
+	if (warning_container.innerHTML == '') {
+		let no_warn = document.createElement('p');
+		no_warn.innerHTML = "Замечаний нет.";
+		no_warn.style.color = "green";
+		warning_container.append(no_warn);
+		btnExport.style.display = 'block';
+	}
+};
+
+noWarn();
+
+function addWarn(warn_text) {
+	let warn_p = document.createElement('p');
+	warn_p.innerHTML = warn_text;
+	warn_p.style.color = "red";
+	warning_container.append(warn_p);
+};
+
+function deSelect(tag_name) {
+	let elements = form.querySelectorAll(tag_name);
+	for (let elem of elements) {
+		elem.style.color = "black";
+	}
+};
+
+form.onchange = function (event) {
+	component_container.innerHTML = '';
+	warning_container.innerHTML = '';
+	table_container.innerHTML = '';
+	deSelect('select');
+	deSelect('input');
+	btnExport.style.display = 'none';
+
+	<!--2)-->
+	if ((td.selectedIndex == '0' || td.selectedIndex == '1') && os.selectedIndex != '0') {
+		addWarn("Механизм дивана применяется только для отдельностоящего МШК (ОС)");
+		td.style.color = "red";
+		os.style.color = "red";
+	}
+
+	<!--3)-->
+	if (td.selectedIndex == '1' && fixer.selectedIndex == '3') {
+		addWarn("Требуется фиксация фасада для механизма дивана (К)");
+		td.style.color = "red";
+		fixer.style.color = "red";
+	}
+
+	<!--4)-->
+	if (os.selectedIndex == '0' && td.selectedIndex == '2' && vop.selectedIndex != '1') {
+		addWarn("Для (ОС) без механизма дивана высота опоры 430 мм.");
+		os.style.color = "red";
+		td.style.color = "red";
+		vop.style.color = "red";
+	}
+
+	<!--5)-->
+	if ((td.selectedIndex == '0' || td.selectedIndex == '1') && vop.selectedIndex != '0') {
+		addWarn("Для механизмов дивана (ДФ и К) высота опоры 270 мм.");
+		td.style.color = "red";
+		vop.style.color = "red";
+	}
+
+	<!--6)-->
+	if (Number(glm.options[glm.selectedIndex].text) > Number(glhk.value)) {
+		addWarn("Глубина механизма не может быть больше глубины шкафа.");
+		glm.style.color = "red";
+		glhk.style.color = "red";
+	}
+
+	<!--7)-->
+	if (tsarga.value == '0' && izgolovie.value == '1') {
+		addWarn("При наличии царги (Ц) изголовье (ИЗ) не требуется.");
+		tsarga.style.color = "red";
+		izgolovie.style.color = "red";
+	}
+
+	<!--8)-->
+	if (Number(shirina.value) < Number(dlina.value) && izgolovie.value == '1') {
+		addWarn("В вертикальном исполнении изголовье (ИЗ) не применяется.");
+		shirina.style.color = "red";
+		dlina.style.color = "red";
+		izgolovie.style.color = "red";
+	}
+
+	<!--9)-->
+	if (350 > Number(glhk.value) || Number(glhk.value) > 600) {
+		addWarn("Укажите глубину шкафа от 350 мм до 600 мм.");
+		glhk.style.color = "red";
+	}
+
+	<!--10)-->
+	if (680 > Number(shirina.value) || Number(shirina.value) > 2100) {
+		addWarn("Укажите ширину спального места от 680 мм до 2100 мм.");
+		shirina.style.color = "red";
+	}
+
+	<!--11)-->
+	if (800 > Number(dlina.value) || Number(dlina.value) > 2100) {
+		addWarn("Укажите длину спального места от 800 мм до 2100 мм.");
+		dlina.style.color = "red";
+	}
+
+	if (warning_container.innerHTML == '') {
+		showStructure();
+	}
+
+	noWarn();
+
+};
+
+let change_event = new Event("change");
+form.dispatchEvent(change_event);
+
+$("#btnExport").click(function (e) {
+	var a = document.createElement('a');
+	var data_type = 'data:application/vnd.ms-excel';
+	var table_html = table_container.outerHTML.replace(/ /g, '%20');
+	a.href = data_type + ', ' + table_html;
+	a.download = article + '.xls';
+	a.click();
+	e.preventDefault();
+});
+
+
+
+</script>
+
+{% endblock %}

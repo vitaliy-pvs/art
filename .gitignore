@@ -1,0 +1,17 @@
+*.log
+*.pot
+*.pyc
+*~
+__pycache__
+local_settings.py
+db.sqlite3
+.DS_Store
+pip-log.txt
+pip-delete-this-directory.txt
+/.idea/
+/venv/
+/sizes/static/favicon.png
+/sizes/static/header.jpg
+/sizes/static/logo.png
+/media/
+db.json
