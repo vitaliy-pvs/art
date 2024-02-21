@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: art
+  labels:
+    app: art
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: art-container
+  template:
+    metadata:
+      labels:
+        pod: art-container
+    spec:
+      containers:
+        - name: art-web
+          image: localhost:32000/pvsdoc/art:v1
+          ports:
+            - containerPort: 80

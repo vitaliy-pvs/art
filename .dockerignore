@@ -1,8 +1,11 @@
 # Git
 .git
+.github
 .gitignore
 .gitattributes
 
+#Kubernetes
+kubernetes
 
 # CI
 .codeclimate.yml
