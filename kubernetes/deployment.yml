@@ -16,6 +16,7 @@ spec:
     spec:
       containers:
         - name: art-web
-          image: localhost:32000/pvsdoc/art:v1
+          #image: localhost:32000/pvsdoc/art:v1
+          image: ghcr.io/vitaliy-pvs/art:latest
           ports:
             - containerPort: 80
