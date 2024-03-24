@@ -10,7 +10,7 @@ spec:
     pod: art-container
   ports:
   - protocol: TCP
-    port: 80
+    port: 443
 
 #kind: Service
 #apiVersion: v1

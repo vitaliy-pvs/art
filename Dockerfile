@@ -4,6 +4,6 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /art
 COPY . .
 RUN pip install -r requirements.txt
-EXPOSE 80
+EXPOSE 443
 ENTRYPOINT ["python", "manage.py"]
-CMD ["runserver", "0.0.0.0:80"]
+CMD ["runserver", "0.0.0.0:443"]
