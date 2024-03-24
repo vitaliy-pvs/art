@@ -6,6 +6,11 @@ metadata:
     metallb.universe.tf/loadBalancerIPs: 195.58.54.98
 spec:
   type: LoadBalancer
+  selector:
+    pod: art-container
+  ports:
+  - protocol: TCP
+    port: 80
 
 #kind: Service
 #apiVersion: v1
