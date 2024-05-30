@@ -1,13 +1,18 @@
-# for start workflow
-
 name: CI/CD
 
 on: push
 
 jobs:
 
+  checkout-source-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
   build:
     name: Build
+    needs: checkout-source-code
     runs-on: ubuntu-latest
     steps:
       - name: Set up Docker Buildx
@@ -42,8 +47,8 @@ jobs:
           k8s-url: https://195.58.54.98:6443/
           k8s-secret: ${{ secrets.KUBERNETES_SECRET }}
 
-      - name: Checkout source code
-        uses: actions/checkout@v3
+#      - name: Checkout source code
+#        uses: actions/checkout@v3
 
       - name: Deploy to the Kubernetes cluster
         uses: azure/k8s-deploy@v1
