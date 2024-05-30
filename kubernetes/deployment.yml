@@ -6,6 +6,7 @@ metadata:
     app: art
 spec:
   replicas: 1
+  revisionHistoryLimit: 1
   selector:
     matchLabels:
       pod: art-container
