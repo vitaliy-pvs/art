@@ -1,27 +1,30 @@
 # --- MetallB-LoadBalancer ---
- apiVersion: v1
- kind: Service
- metadata:
-   name: art-service
-   annotations:
-     metallb.universe.tf/loadBalancerIPs: 195.58.54.98
- spec:
-   type: LoadBalancer
-   selector:
-     pod: art-container
-   ports:
-   - protocol: TCP
-     port: 80
 
-# --- ClusterIP ---
-#kind: Service
 #apiVersion: v1
+#kind: Service
 #metadata:
 #  name: art-service
+#  annotations:
+#    metallb.universe.tf/loadBalancerIPs: 195.58.54.98
 #spec:
+#  type: LoadBalancer
 #  selector:
 #    pod: art-container
 #  ports:
-#  - protocol: TCP
-#    port: 443
-#  type: ClusterIP
+#    - protocol: TCP
+#      port: 80
+
+
+# --- ClusterIP ---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: art-service
+spec:
+  selector:
+    pod: art-container
+  ports:
+    - protocol: TCP
+      port: 80
+  type: ClusterIP
