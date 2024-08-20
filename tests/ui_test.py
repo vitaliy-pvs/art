@@ -1,6 +1,10 @@
 from selenium import webdriver
+from selenium.webdriver import FirefoxOptions
 
-driver = webdriver.Firefox()
+opts = FirefoxOptions()
+opts.add_argument("--headless")
+
+driver = webdriver.Firefox(options=opts)
 driver.get("http://195.58.54.98")
 assert "МШК-01" in driver.title
 driver.get("http://195.58.54.98/art04/")
