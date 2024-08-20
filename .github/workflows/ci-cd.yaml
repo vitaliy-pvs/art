@@ -4,15 +4,33 @@ on: push
 
 jobs:
 
-  checkout-source-code:
+  test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
 
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install requirements.txt
+        run: pip install -r requirements.txt
+
+      - name: Run migrations apply
+        run: python manage.py migrate
+
+      - name: Run server
+        run: python manage.py runserver 0.0.0.0:8000
+
+      - name: Run test
+        run: python tests/ui_test.py
+
   build:
     name: Build
-    needs: checkout-source-code
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Set up Docker Buildx
