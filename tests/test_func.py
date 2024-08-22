@@ -1,7 +1,6 @@
-import time
 import unittest
 from selenium import webdriver
-from selenium.webdriver import FirefoxOptions, ActionChains
+from selenium.webdriver import FirefoxOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 
@@ -21,16 +20,20 @@ class UiTestMhk01(unittest.TestCase):
         assert self.driver.find_element(By.TAG_NAME, "h2").text == "Конфигуратор МШК-01"
 
     def test_condition_1(self):
-        select_os_el = self.driver.find_element(By.ID, "os")
-        select_os = Select(select_os_el)
+        select_os = Select(self.driver.find_element(By.ID, "os"))
         select_os.select_by_visible_text("НЕТ")
 
         select_td_el = self.driver.find_element(By.ID, "td")
         select_td = Select(select_td_el)
         selected_options_td = select_td.all_selected_options
+        assert selected_options_td.pop(0).text == "НЕТ"
+        assert select_td_el.is_enabled() is False
 
-        for option in selected_options_td:
-            print(option.text)
+        select_gld_el = self.driver.find_element(By.ID, "gld")
+        select_gld = Select(select_gld_el)
+        selected_options_gld = select_gld.all_selected_options
+        assert selected_options_gld.pop(0).text == "550"
+        assert select_gld_el.is_enabled() is False
 
         warning_container = self.driver.find_element(By.ID, "warning_container")
         assert warning_container.find_element(By.TAG_NAME, "p").text == "Замечаний нет."
@@ -38,17 +41,11 @@ class UiTestMhk01(unittest.TestCase):
     def test_condition_2(self):
         select_td_el = self.driver.find_element(By.ID, "td")
 
-        # The second method
-        # select_td = Select(select_td_el)
-        # select_td.select_by_visible_text("НЕТ")
         select_td_el.click()
         select_opt_os = select_td_el.find_element(By.XPATH, "//option[@value='2']")
         select_opt_os.click()
 
         warning_container = self.driver.find_element(By.ID, "warning_container")
-        # print(warning_container.find_element(By.TAG_NAME, "p").text)
-        # time.sleep(5)
-        # print(warning_container.find_element(By.TAG_NAME, "p").text)
         assert warning_container.find_element(By.TAG_NAME, "p").text == "- Отдельно стоящий механизм (ОС) должен иметь диван."
 
     def tearDown(self):
