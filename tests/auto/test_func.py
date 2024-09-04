@@ -40,13 +40,28 @@ class UiTestMhk01(unittest.TestCase):
 
     def test_condition_2(self):
         select_td_el = self.driver.find_element(By.ID, "td")
-
         select_td_el.click()
         select_opt_os = select_td_el.find_element(By.XPATH, "//option[@value='2']")
         select_opt_os.click()
 
         warning_container = self.driver.find_element(By.ID, "warning_container")
         assert warning_container.find_element(By.TAG_NAME, "p").text == "- Отдельно стоящий механизм (ОС) должен иметь диван."
+
+    def test_condition_3(self):
+        select_td_el = self.driver.find_element(By.ID, "td")
+        select_td = Select(select_td_el)
+        select_td.select_by_visible_text('МТД-33')
+
+        select_fixer_el = self.driver.find_element(By.ID, "fixer")
+        select_fixer = Select(select_fixer_el)
+        select_fixer.select_by_visible_text('НЕТ')
+
+        select_ed_el = self.driver.find_element(By.ID, "ed")
+        select_ed = Select(select_ed_el)
+        select_ed.select_by_visible_text('НЕТ')
+
+        warning_container = self.driver.find_element(By.ID, "warning_container")
+        assert warning_container.find_element(By.TAG_NAME, "p").text == "- Нужна фиксация фасада при использовании МТД-33."
 
     def tearDown(self):
         self.driver.close()
