@@ -70,4 +70,4 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run test
-        run: python tests/test_func.py
+        run: python tests/auto/test_func.py
