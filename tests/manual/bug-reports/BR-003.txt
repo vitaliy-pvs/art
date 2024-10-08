@@ -1,0 +1,47 @@
+ID:
+BR-003
+
+Summary:
+Орфографическая ошибка в названии параметра "Вытота оси вращения"
+
+Project:
+Art
+
+Version:
+-
+
+Component:
+Конфигуратор МШК-01 / параметр "Высота оси вращения"
+
+Environment:
+LAPTOP-REV3597G Lenovo, Windows 10 Pro version 22H2, Google Chrome version 129.0.6668.90 64-bit
+
+Severity:
+Minor
+
+Priority:
+Low
+
+Reported By:
+vitaliy-pvs
+
+Assigned To:
+vitaliy-pvs
+
+Status:
+Open
+
+Preconditions:
+1. Страница https://mchk.pythonanywhere.com/ перезагружена
+
+Steps to Reproduce:
+1. Проверить правильность написания названия параметра "Высота оси вращения"
+
+Actual Result:
+1. "Вытота оси вращения"
+
+Expected Result:
+1. "Высота оси вращения"
+
+Attachment:
+BR-003-attachment.png

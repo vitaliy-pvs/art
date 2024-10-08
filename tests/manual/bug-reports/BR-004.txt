@@ -1,8 +1,8 @@
 ID:
-BR-001
+BR-004
 
 Summary:
-Отсутствие замечаний при вводе пользователем Unicode emoji в поле ввода "Глубина шкафа"
+Отсутствие замечаний при вводе пользователем js-кода в поле ввода "Глубина шкафа"
 
 Project:
 Art
@@ -36,7 +36,7 @@ Preconditions:
 2. В поле ввода "Глубина шкафа" по умолчанию установлено значение 430.
 
 Steps to Reproduce:
-1. В поле ввода "Глубина шкафа" ввести значение unicode emoji "grinning face"
+1. В поле ввода "Глубина шкафа" ввести значение "<script> alert("text"); </script>"
 2. Нажать клавишу Tab.
 
 Actual Result:
@@ -50,4 +50,4 @@ Expected Result:
 3. Таблица раздельной выписки и кнопка "Скачать Excel" скрыты.
 
 Attachment:
-BR-001-attachment.png
+BR-004-attachment.png
