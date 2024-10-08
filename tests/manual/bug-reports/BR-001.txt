@@ -5,7 +5,7 @@ Summary:
 Отсутствие замечаний при вводе пользователем Unicode emoji в поле ввода "Глубина шкафа"
 
 Project:
-art
+Art
 
 Version:
 -
@@ -17,10 +17,13 @@ Environment:
 LAPTOP-REV3597G Lenovo, Windows 10 Pro version 22H2, Google Chrome version 129.0.6668.90 64-bit
 
 Severity:
-major
+Major
 
 Priority:
-normal
+Normal
+
+Reported By:
+vitaliy-pvs
 
 Assigned To:
 vitaliy-pvs
@@ -36,7 +39,7 @@ Steps to Reproduce
 1. В поле ввода "Глубина шкафа" ввести значение unicode emoji "grinning face"
 2. Нажать клавишу Tab.
 
-Result:
+Actual Result:
 1. Отсутствует выделение красным цветом значения параметра "Глубина шкафа"
 2. В области уведомлений отображается текст зеленого цвета "Замечаний нет."
 3. Таблица раздельной выписки и кнопка "Скачать Excel" видимы.
@@ -47,4 +50,4 @@ Expected Result:
 3. Таблица раздельной выписки и кнопка "Скачать Excel" скрыты.
 
 Attachment:
-bug-report-attachment.png
+BR-001-attachment.png
