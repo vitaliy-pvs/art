@@ -17,14 +17,31 @@
 
 # --- ClusterIP ---
 
-kind: Service
-apiVersion: v1
-metadata:
-  name: art-service
-spec:
-  selector:
-    pod: art-container
-  ports:
-    - protocol: TCP
-      port: 80
-  type: ClusterIP
+#kind: Service
+#apiVersion: v1
+#metadata:
+#  name: art-service
+#spec:
+#  selector:
+#    pod: art-container
+#  ports:
+#    - protocol: TCP
+#      port: 80
+#  type: ClusterIP
+
+
+# --- NodePort ---
+
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: art-service
+  spec:
+    type: NodePort
+    selector:
+      pod: art-container
+    ports:
+      - port: 80
+        targetPort: 80
+        nodePort: 30003
+        protocol: TCP
