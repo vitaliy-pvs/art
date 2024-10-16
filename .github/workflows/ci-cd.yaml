@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set the Kubernetes context
-        uses: azure/k8s-set-context@v2
+        uses: azure/k8s-set-context@v4
         with:
           method: service-account
           k8s-url: https://194.87.147.125:6443/
