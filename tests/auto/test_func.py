@@ -11,7 +11,7 @@ class UiTestMhk01(unittest.TestCase):
         opts = FirefoxOptions()
         opts.add_argument("--headless")
         self.driver = webdriver.Firefox(options=opts)
-        self.driver.get("http://37.230.116.88:80")
+        self.driver.get("http://217.28.222.73:80")
 
     def test_title(self):
         assert self.driver.title == "МШК-01"
